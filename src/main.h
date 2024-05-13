@@ -4,4 +4,4 @@ void Redering(SDL_Texture* menuTexture, SDL_Texture* head2menu, SDL_Rect& headm2
 
 void RunGame(bool& quit, SDL_Texture* backgroundTexture, snake& SNAKE, SDL_Texture* appleTexture, SDL_Event& e, snake2& SNAKE2, bool& win);
 
-void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix_Chunk* wingame, SDL_Texture* p2winTexture);
+void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix_Chunk* wingame, SDL_Texture* p2winTexture, SDL_Texture* space, SDL_Rect& sb);
