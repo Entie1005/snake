@@ -19,22 +19,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\applee.png" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\backgr.jpg" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\body.jpg" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headdown.jpg" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headleft.jpg" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headright.jpg" />
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headup.jpg" />
+    <ClInclude Include="src\create_map.h" />
+    <ClInclude Include="src\function.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\snake.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Downloads\game-main\game-main\sc\create_map.h" />
+    <Text Include="src\input_map.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\Downloads\game-main\game-main\sc\input_map.txt" />
+    <Image Include="backgr.jpg" />
+    <Image Include="body.png" />
+    <Image Include="body_p2.png" />
+    <Image Include="cua.png" />
+    <Image Include="food.png" />
+    <Image Include="head.png" />
+    <Image Include="head_p1menu.png" />
+    <Image Include="head_p2.png" />
+    <Image Include="head_p2menu.png" />
+    <Image Include="key1.png" />
+    <Image Include="key2.png" />
+    <Image Include="load.png" />
+    <Image Include="load1.png" />
+    <Image Include="load2.png" />
+    <Image Include="load3.png" />
+    <Image Include="menu.jpg" />
+    <Image Include="menustart1.jpg" />
+    <Image Include="P1.png" />
+    <Image Include="P2.png" />
+    <Image Include="play.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Downloads\game-main\game-main\sc\main.cpp" />
+    <Media Include="anqua.wav" />
+    <Media Include="nhaccachmang.wav" />
+    <Media Include="nhacnen.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -122,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(Solution)depen\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Solution)depen\include;$(Solution)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

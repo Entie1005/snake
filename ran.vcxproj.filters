@@ -15,38 +15,95 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\applee.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\backgr.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\body.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headdown.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headleft.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headright.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\Downloads\game-main\game-main\sc\headup.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Downloads\game-main\game-main\sc\create_map.h">
+    <ClInclude Include="src\create_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\snake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\Downloads\game-main\game-main\sc\input_map.txt" />
+    <Text Include="src\input_map.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Downloads\game-main\game-main\sc\main.cpp">
+    <Image Include="cua.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="food.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="head.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="head_p1menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="head_p2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="head_p2menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="key1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="key2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="load.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="load1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="load2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="load3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="menu.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="menustart1.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="P1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="P2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="play.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="backgr.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="body.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="body_p2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="nhaccachmang.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="nhacnen.mp3" />
+    <Media Include="anqua.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
