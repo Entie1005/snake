@@ -4,8 +4,8 @@
 #include <SDL.h>
 #include <ctime>
 #include <fstream>
-#include<SDL_mixer.h>
 #include <SDL_image.h>
+#include<SDL_mixer.h>
 using namespace std;
 
 extern SDL_Window* window = nullptr;
@@ -121,6 +121,7 @@ struct body
 };
 class snake
 {
+    Mix_Chunk* anqua = Mix_LoadWAV("anqua.wav");
 public:
     int speed;
     vector <body> BODY;
@@ -133,7 +134,6 @@ public:
     food FOOD2;
     SDL_Texture* headTexture;
     SDL_Texture* bodyTexture;
-    SDL_Texture* cornerTexture;
     // khoi tao ran
     snake(int SPEED = 1, vector <body> initbody = { body(12 * 20,16 * 20,20,20) })
     {
@@ -149,8 +149,6 @@ public:
         if (headTexture == NULL)
             cout << "Failed to load up!!!!!!!!!!!!!!!!!!!!!";
         bodyTexture = loadTexture("body.png", renderer);
-        cornerTexture = loadTexture("cua.png", renderer);
-
         // Save the current position of the head
         int prevX = BODY[0].Xb;
         int prevY = BODY[0].Yb;
@@ -244,6 +242,7 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             FOOD.GEN_F();
+            Mix_PlayChannel(-1, anqua, 0);
         }
 
 
@@ -257,6 +256,7 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             FOOD2.GEN_F();
+            Mix_PlayChannel(-1, anqua, 0);
         }
 
     }
@@ -265,30 +265,31 @@ public:
 
 class snake2
 {
+    Mix_Chunk* anqua = Mix_LoadWAV("anqua.wav");
 public:
     int speed;
     vector <body> BODY;
     enum Direction { UP, DOWN, LEFT, RIGHT };
     Direction direct;
-   // food FOOD;
+    // food FOOD;
     SDL_Texture* headTexture;
     SDL_Texture* bodyTexture;
-    snake2(int SPEED = 1, vector <body> initbody = {body(10 * 20,10 * 20,20,20)})
+    snake2(int SPEED = 1, vector <body> initbody = { body(10 * 20,10 * 20,20,20) })
     {
         speed = SPEED;
         BODY = initbody;
     }
-     void update()
+    void update()
     {
 
         headTexture = loadTexture("head_p2.png", renderer);
         if (headTexture == NULL)
             cout << "Failed to load up!!!!!!!!!!!!!!!!!!!!!";
-        else cout<<"load head dc"<<endl;
+        else cout << "load head dc" << endl;
         bodyTexture = loadTexture("body_p2.png", renderer);
-        if(bodyTexture == NULL)
-            cout<<"load body failed"<<endl;
-        else cout<<"load body!"<<endl;
+        if (bodyTexture == NULL)
+            cout << "load body failed" << endl;
+        else cout << "load body!" << endl;
         for (int i = 0; i < (int)BODY.size(); i++)
         {
             if (i == 0)
@@ -364,9 +365,9 @@ public:
     void BORDERCHECK2(bool& Q)
     {
         if (BODY[0].Xb < 0 || BODY[0].Xb >= 640 || BODY[0].Yb < 0 || BODY[0].Yb >= 480)
-            {
-                Q = true;
-            }
+        {
+            Q = true;
+        }
     }
 
 
@@ -375,19 +376,20 @@ public:
     {
         cout << "snake 2 x " << BODY[0].Xb << " y " << BODY[0].Yb << endl;
         cout << BODY.size() << endl;
-//        if (BODY[0].Xb == FOOD.fX && BODY[0].Yb == FOOD.fY)
-//        {
-//            cout << "ANNNNN" << endl;
-//            body newBody(prex, prey, 20, 20, bodyTexture);
-//            BODY.push_back(newBody);//chen them anh than vao body
-//            FOOD.GEN_F();
-//        }
+        //        if (BODY[0].Xb == FOOD.fX && BODY[0].Yb == FOOD.fY)
+        //        {
+        //            cout << "ANNNNN" << endl;
+        //            body newBody(prex, prey, 20, 20, bodyTexture);
+        //            BODY.push_back(newBody);//chen them anh than vao body
+        //            FOOD.GEN_F();
+        //        }
         if (BODY[0].Xb == SNAKE1.FOOD.fX && BODY[0].Yb == SNAKE1.FOOD.fY)
         {
             cout << "ANNNNN" << endl;
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             SNAKE1.FOOD.GEN_F();
+            Mix_PlayChannel(-1, anqua, 0);
         }
 
 
@@ -398,7 +400,8 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             SNAKE1.FOOD2.GEN_F();
+            Mix_PlayChannel(-1, anqua, 0);
         }
+
     }
 };
-
