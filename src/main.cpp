@@ -88,7 +88,6 @@ int main(int argc, char* args[])
     SDL_Event e;
     bool quit = false;
     bool win = true;
-    bool playAgain = false;
     bool result = false;
 
     Mix_PlayMusic(nhacnen, -1);
@@ -209,9 +208,9 @@ void RunGame(bool& quit, SDL_Texture* backgroundTexture, snake& SNAKE, SDL_Textu
             if (e.type == SDL_QUIT)
                 quit = true;
             // quit = escape
-            const Uint8* keys = SDL_GetKeyboardState(nullptr);
+            /*const Uint8* keys = SDL_GetKeyboardState(nullptr);
             if (keys[SDL_SCANCODE_ESCAPE])
-                quit = true;
+                quit = true;*/
             SNAKE.input_dir(e);
             SNAKE2.input_dir(e);
         }
