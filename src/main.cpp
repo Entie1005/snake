@@ -36,6 +36,7 @@ int main(int argc, char* args[])
     SDL_Texture* loaTexture = loadTexture("load1.png", renderer);
     SDL_Texture* loa2Texture = loadTexture("load2.png", renderer);
     SDL_Texture* loa3Texture = loadTexture("load3.png", renderer);
+    SDL_Texture* space = loadTexture("space.png", renderer);
     Mix_Music* nhacnen = Mix_LoadMUS("nhacnen.mp3");
     Mix_Chunk* wingame = Mix_LoadWAV("nhaccachmang.wav");
     SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
@@ -69,6 +70,12 @@ int main(int argc, char* args[])
     loa.y = 350;
     loa.h /= 2;
     loa.w /= 2;
+    SDL_Rect sb;
+    SDL_QueryTexture(playTexture, NULL, NULL, &sb.w, &sb.h);
+    sb.x = 190;
+    sb.y = 310;
+    sb.h /= 10;
+    sb.w /= 2;
     SDL_Rect play;
     SDL_QueryTexture(playTexture, NULL, NULL, &play.w, &play.h);
     play.x = 270;
@@ -113,7 +120,7 @@ int main(int argc, char* args[])
                         RunGame(quit, backgroundTexture, SNAKE, appleTexture, e, SNAKE2, win);
                         SDL_DestroyTexture(backgroundTexture);
                         Mix_HaltMusic();
-                        Winner(result, e, win, p1winTexture, wingame, p2winTexture);
+                        Winner(result, e, win, p1winTexture, wingame, p2winTexture, space, sb);
                         Mix_HaltMusic();
                         SDL_RenderClear(renderer);
                         quit = false;
@@ -130,7 +137,7 @@ int main(int argc, char* args[])
             }
         }
     }
-    
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -141,7 +148,7 @@ int main(int argc, char* args[])
     return 0;
 }
 
-void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix_Chunk* wingame, SDL_Texture* p2winTexture)
+void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix_Chunk* wingame, SDL_Texture* p2winTexture, SDL_Texture* space, SDL_Rect& sb)
 {
     while (!result) {
         // Handle events on queue
@@ -161,6 +168,7 @@ void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix
 
         if (win) {
             SDL_RenderCopy(renderer, p1winTexture, NULL, NULL);
+            SDL_RenderCopy(renderer, space, NULL, &sb);
             SDL_RenderPresent(renderer);
             if (!win_audio) {
                 Mix_PlayChannel(-1, wingame, 0);
@@ -171,6 +179,7 @@ void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix
         }
         else {
             SDL_RenderCopy(renderer, p2winTexture, NULL, NULL);
+            SDL_RenderCopy(renderer, space, NULL, &sb);
             SDL_RenderPresent(renderer);
             if (!win_audio) {
                 Mix_PlayChannel(-1, wingame, 0);
