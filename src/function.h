@@ -141,9 +141,9 @@ void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den 
             break;
         }
         // Render each body segment with its respective rotation
-        for (int i = 0; i < SNAKE2.BODY.size(); i++)
-            SNAKE2.BODY[i].draw_body(renderer, i == 0 ? 0 : SNAKE2.BODY[i - 1].Xb, i == 0 ? 0 : SNAKE2.BODY[i - 1].Yb, rotation2, i == 0);
-            SNAKE2.BODY[0].draw_body(renderer, 0, 0, rotation2, true);
+        for (int i = 1; i < SNAKE2.BODY.size(); i++)
+            SNAKE2.BODY[i].draw_body(renderer, SNAKE2.BODY[i - 1].Xb, SNAKE2.BODY[i - 1].Yb, rotation2, i == 0);
+        SNAKE2.BODY[0].draw_body(renderer, 0, 0, rotation2, true);
 }
 
 
