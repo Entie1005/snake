@@ -110,9 +110,9 @@ int main(int argc, char* args[])
 
                         snake SNAKE;
                         snake2 SNAKE2;
-                        Mix_HaltMusic();
                         RunGame(quit, backgroundTexture, SNAKE, appleTexture, e, SNAKE2, win);
                         SDL_DestroyTexture(backgroundTexture);
+                        Mix_HaltMusic();
                         Winner(result, e, win, p1winTexture, wingame, p2winTexture);
                         Mix_HaltMusic();
                         SDL_RenderClear(renderer);
