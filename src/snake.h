@@ -67,6 +67,43 @@ struct food
     }
 };
 
+struct golden_food
+{
+    int fX;
+    int fY;
+    int fW;
+    int fH;
+    SDL_Texture* texture;
+    golden_food(SDL_Texture* tex = NULL)
+    {
+        fW = 60;
+        fH = 20;
+        fX = (rand() % 32) * 20;
+        fY = (rand() % 24) * 20;
+        tex = texture;
+    }
+    void draw_food(SDL_Renderer* renderer)
+    {
+        SDL_Rect F;
+        F.w = fW;
+        F.h = fH;
+        F.x = fX;
+        F.y = fY;
+        if (texture != NULL)
+        {
+            SDL_RenderCopy(renderer, texture, NULL, &F);
+        }
+
+        SDL_SetRenderDrawColor(renderer, 160, 160, 160, 255);
+        SDL_RenderFillRect(renderer, &F);
+    }
+    void GEN_F()
+    {
+        fX = (rand() % 32) * 20;
+        fY = (rand() % 24) * 20;
+    }
+};
+
 struct body
 {
     int Xb;
@@ -128,6 +165,7 @@ public:
     enum Direction { UP, DOWN, LEFT, RIGHT };
     Direction direct;
     food FOOD;
+    golden_food GOLD;
 
     //them ham food 2
 
@@ -245,8 +283,6 @@ public:
             Mix_PlayChannel(-1, anqua, 0);
         }
 
-
-
         cout << "food2 x " << FOOD2.fX << " y " << FOOD2.fY << endl;
         cout << "snake x " << BODY[0].Xb << " y " << BODY[0].Yb << endl;
         cout << BODY.size() << endl;
@@ -258,7 +294,6 @@ public:
             FOOD2.GEN_F();
             Mix_PlayChannel(-1, anqua, 0);
         }
-
     }
 };
 
@@ -405,3 +440,27 @@ public:
 
     }
 };
+void golden_eaten(snake& SNAKE, snake2& SNAKE2) {
+    Mix_Chunk* anqua = Mix_LoadWAV("anqua.wav");
+    if (SNAKE.BODY.size() % 5 == 0 || SNAKE2.BODY.size() % 5 == 0) {
+        cout << "gold x " << SNAKE.GOLD.fX << " y " << SNAKE.GOLD.fY << endl;
+        cout << "snake x " << SNAKE.BODY[0].Xb << " y " << SNAKE.BODY[0].Yb << endl;
+        cout << "snake 2 x " << SNAKE2.BODY[0].Xb << " y " << SNAKE2.BODY[0].Yb << endl;
+        if (SNAKE.BODY[0].Xb == SNAKE.GOLD.fX && SNAKE.BODY[0].Yb == SNAKE.GOLD.fY)
+        {
+            cout << "ANNNNN" << endl;
+            SNAKE2.BODY.pop_back();//chen them anh than vao body
+            SNAKE.GOLD.GEN_F();
+
+            Mix_PlayChannel(-1, anqua, 0);
+        }
+        else if (SNAKE2.BODY[0].Xb == SNAKE.GOLD.fX && SNAKE2.BODY[0].Yb == SNAKE.GOLD.fY)
+        {
+            cout << "ANNNNN" << endl;
+            SNAKE.BODY.pop_back();//chen them anh than vao body
+            SNAKE.GOLD.GEN_F();
+
+            Mix_PlayChannel(-1, anqua, 0);
+        }
+    }
+}
