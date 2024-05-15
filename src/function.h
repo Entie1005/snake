@@ -85,7 +85,7 @@ bool WINLOSE(bool& Q, snake& SNAKE, snake2& SNAKE2)
 
     }
 
-void process_snake_p1(snake& SNAKE, bool &quit)
+void process_snake_p1(snake& SNAKE, snake2 &SNAKE2, bool &quit)
 {
         SNAKE.BORDERCHECK1(quit);    //border
         SNAKE.update();  //movement
@@ -94,6 +94,7 @@ void process_snake_p1(snake& SNAKE, bool &quit)
         int prex = SNAKE.BODY[SNAKE.BODY.size() - 1].Xb;
         int prey = SNAKE.BODY[SNAKE.BODY.size() - 1].Yb;
         SNAKE.EATCHECK(prex, prey);
+        golden_eaten(SNAKE, SNAKE2);
         int rotation = 0;
         switch (SNAKE.direct) {
         case snake::UP:
@@ -124,6 +125,7 @@ void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den 
         int prex2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Xb;
         int prey2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Yb;
         SNAKE2.EATCHECK(prex2, prey2, SNAKE);
+        golden_eaten(SNAKE, SNAKE2);
         int rotation2 = 0;
         switch (SNAKE2.direct)
         {
@@ -147,25 +149,47 @@ void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den 
 }
 
 
-void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture)
+void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold)
 {
-    SDL_Rect appleRect;
+    if (SNAKE.BODY.size() % 5 != 0) {
+        SDL_Rect appleRect;
         appleRect.x = SNAKE.FOOD.fX;
         appleRect.y = SNAKE.FOOD.fY;
         appleRect.w = 20;
         appleRect.h = 20;
         if (appleTexture != NULL)
             SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
+    }
+    else {
+        SDL_Rect goldRect;
+        goldRect.x = SNAKE.GOLD.fX;
+        goldRect.y = SNAKE.GOLD.fY;
+        goldRect.w = 20;
+        goldRect.h = 20;
+        if (gold != NULL)
+            SDL_RenderCopy(renderer, gold, NULL, &goldRect);
+    }
 }
 
 
-void process_apple_p2(snake& SNAKE, SDL_Texture* appleTexture)
+void process_apple_p2(snake &SNAKE, snake2& SNAKE2, SDL_Texture* appleTexture, SDL_Texture* gold)
 {
-    SDL_Rect appleRect;
+    if (SNAKE2.BODY.size() % 5 != 0) {
+        SDL_Rect appleRect;
         appleRect.x = SNAKE.FOOD2.fX;
         appleRect.y = SNAKE.FOOD2.fY;
         appleRect.w = 20;
         appleRect.h = 20;
         if (appleTexture != NULL)
             SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
+    }
+    else {
+        SDL_Rect goldRect;
+        goldRect.x = SNAKE.GOLD.fX;
+        goldRect.y = SNAKE.GOLD.fY;
+        goldRect.w = 20;
+        goldRect.h = 20;
+        if (gold != NULL)
+            SDL_RenderCopy(renderer, gold, NULL, &goldRect);
+    }
 }
