@@ -113,12 +113,13 @@ int main(int argc, char* args[])
                         SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
                         SDL_Texture* appleTexture = loadTexture("food.png", renderer);
                         SDL_Texture* gold = loadTexture("goldApple.png", renderer);
+                        SDL_Texture* green = loadTexture("greenApple.png", renderer);
 
                         //chen anh qua tao
 
                         snake SNAKE;
                         snake2 SNAKE2;
-                        RunGame(quit, backgroundTexture, SNAKE, appleTexture, gold, e, SNAKE2, win);
+                        RunGame(quit, backgroundTexture, SNAKE, appleTexture, gold, green, e, SNAKE2, win);
                         SDL_DestroyTexture(backgroundTexture);
                         Mix_HaltMusic();
                         Winner(result, e, win, p1winTexture, wingame, p2winTexture, space, sb);
@@ -194,7 +195,7 @@ void Winner(bool& result, SDL_Event& e, bool win, SDL_Texture* p1winTexture, Mix
     }
 }
 
-void RunGame(bool& quit, SDL_Texture* backgroundTexture, snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold, SDL_Event& e, snake2& SNAKE2, bool& win)
+void RunGame(bool& quit, SDL_Texture* backgroundTexture, snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold, SDL_Texture* green, SDL_Event& e, snake2& SNAKE2, bool& win)
 {
     while (!quit)
     {
@@ -202,8 +203,8 @@ void RunGame(bool& quit, SDL_Texture* backgroundTexture, snake& SNAKE, SDL_Textu
         if (backgroundTexture != nullptr)
             SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);           // load anh backgr
 
-        process_apple_p1(SNAKE, appleTexture, gold);
-        process_apple_p2(SNAKE, SNAKE2, appleTexture, gold);
+        process_apple_p1(SNAKE, appleTexture, gold, green);
+        process_apple_p2(SNAKE, SNAKE2, appleTexture, gold, green);
 
         while (SDL_PollEvent(&e) != 0)
         {
