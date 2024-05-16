@@ -1,4 +1,3 @@
-
 #pragma once
 #include <iostream>
 #include <vector>
@@ -11,30 +10,30 @@ using namespace std;
 
 
 
-bool inside(int &x,int &y,SDL_Rect rect)
+bool inside(int& x, int& y, SDL_Rect rect)
 {
-    bool Inside=true;
+    bool Inside = true;
 
-        // Chuột nằm bên trái nút
-        if( x < rect.x )
-        {
-            Inside = false;
-        }
-        //Chuột ở bên phải nút
-        else if( x > rect.x + rect.w)
-        {
-            Inside = false;
-        }
-        //Chuột lên trên nút
-        else if( y < rect.y )
-        {
-            Inside = false;
-        }
-        //Chuột bên dưới nút
-        else if( y > rect.y + rect.h )
-        {
-            Inside = false;
-        }
+    // Chuột nằm bên trái nút
+    if (x < rect.x)
+    {
+        Inside = false;
+    }
+    //Chuột ở bên phải nút
+    else if (x > rect.x + rect.w)
+    {
+        Inside = false;
+    }
+    //Chuột lên trên nút
+    else if (y < rect.y)
+    {
+        Inside = false;
+    }
+    //Chuột bên dưới nút
+    else if (y > rect.y + rect.h)
+    {
+        Inside = false;
+    }
     return Inside;
 }
 
@@ -43,115 +42,127 @@ bool inside(int &x,int &y,SDL_Rect rect)
 
 
 bool WINLOSE(bool& Q, snake& SNAKE, snake2& SNAKE2)
+{
+    if (SNAKE.BODY.size() == 0)
     {
-        body head = SNAKE.BODY[0];
-        body head2 = SNAKE2.BODY[0];
-        SNAKE.BORDERCHECK1(Q);
-        if(Q == true)            //cap nhat laij ham thang thua khi co 1 con dam vao tuong
-            return false;
-        SNAKE2.BORDERCHECK2(Q);
-        if(Q == true)
+        Q = true;
+        return false;
+    }
+    if (SNAKE2.BODY.size() == 0)
+    {
+        Q = true;
+        return true;
+    }
+    body head = SNAKE.BODY[0];
+    body head2 = SNAKE2.BODY[0];
+    SNAKE.BORDERCHECK1(Q);
+    if (Q == true)            //cap nhat laij ham thang thua khi co 1 con dam vao tuong
+        return false;
+    SNAKE2.BORDERCHECK2(Q);
+    if (Q == true)
+        return true;
+    if (head.Xb == head2.Xb && head.Yb == head2.Yb)
+    {
+        if ((int)SNAKE.BODY.size() > (int)SNAKE2.BODY.size())
+        {
+            Q = true;
             return true;
-        if(head.Xb == head2.Xb && head.Yb == head2.Yb)
-        {
-            if((int)SNAKE.BODY.size() > (int)SNAKE2.BODY.size())
-            {
-                Q = true;
-                return true;
-            }
-            else
-                Q = true;
-                return false;
         }
-        for(int i=1 ; i<SNAKE.BODY.size() ; i++)
+        else
+            Q = true;
+        return false;
+    }
+    for (int i = 1; i < SNAKE.BODY.size(); i++)
+    {
+        if (head2.Xb == SNAKE.BODY[i].Xb && head2.Yb == SNAKE.BODY[i].Yb)
         {
-            if(head2.Xb == SNAKE.BODY[i].Xb && head2.Yb == SNAKE.BODY[i].Yb)
-            {
-                Q = true;
-                return true;
-                break;
-            }
+            Q = true;
+            return true;
+            break;
         }
-        for(int i=1 ; i<SNAKE2.BODY.size() ; i++)
+    }
+    for (int i = 1; i < SNAKE2.BODY.size(); i++)
+    {
+        if (head.Xb == SNAKE2.BODY[i].Xb && head.Yb == SNAKE2.BODY[i].Yb)
         {
-            if(head.Xb == SNAKE2.BODY[i].Xb && head.Yb == SNAKE2.BODY[i].Yb)
-            {
-                Q = true;
-                return false;
-                break;
-            }
+            Q = true;
+            return false;
+            break;
         }
-
-
     }
 
-void process_snake_p1(snake& SNAKE, snake2 &SNAKE2, bool &quit)
-{
-        SNAKE.BORDERCHECK1(quit);    //border
-        SNAKE.update();  //movement
 
-            //previous coordinate
-        int prex = SNAKE.BODY[SNAKE.BODY.size() - 1].Xb;
-        int prey = SNAKE.BODY[SNAKE.BODY.size() - 1].Yb;
-        SNAKE.EATCHECK(prex, prey);
-        golden_eaten(SNAKE, SNAKE2);
-        int rotation = 0;
-        switch (SNAKE.direct) {
-        case snake::UP:
-            rotation = -90;
-            break;
-        case snake::DOWN:
-            rotation = 90;
-            break;
-        case snake::LEFT:
-            rotation = 180;
-            break;
-        case snake::RIGHT:
-            rotation = 0;
-            break;
-        }
-        // Render each body segment with its respective rotation
-        for (int i = 1; i < SNAKE.BODY.size(); i++)
-            SNAKE.BODY[i].draw_body(renderer, SNAKE.BODY[i - 1].Xb, SNAKE.BODY[i - 1].Yb, rotation, i == 0);
-        SNAKE.BODY[0].draw_body(renderer, 0, 0, rotation, true);
 }
 
-void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den snake de dung cho ham EATCHECK
+void process_snake_p1(snake& SNAKE, snake2& SNAKE2, bool& quit)
 {
-        SNAKE2.BORDERCHECK2(quit);
-         //border
-        SNAKE2.update();  //movement
-        //previous coordinate
-        int prex2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Xb;
-        int prey2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Yb;
-        SNAKE2.EATCHECK(prex2, prey2, SNAKE);
-        golden_eaten(SNAKE, SNAKE2);
-        int rotation2 = 0;
-        switch (SNAKE2.direct)
-        {
-        case snake2::UP:
-            rotation2 = -90;
-            break;
-        case snake2::DOWN:
-            rotation2 = 90;
-            break;
-        case snake2::LEFT:
-            rotation2 = 180;
-            break;
-        case snake2::RIGHT:
-            rotation2 = 0;
-            break;
-        }
-        // Render each body segment with its respective rotation
-        for (int i = 1; i < SNAKE2.BODY.size(); i++)
-            SNAKE2.BODY[i].draw_body(renderer, SNAKE2.BODY[i - 1].Xb, SNAKE2.BODY[i - 1].Yb, rotation2, i == 0);
-        SNAKE2.BODY[0].draw_body(renderer, 0, 0, rotation2, true);
+    SNAKE.BORDERCHECK1(quit);    //border
+    SNAKE.update();  //movement
+
+    //previous coordinate
+    int prex = SNAKE.BODY[SNAKE.BODY.size() - 1].Xb;
+    int prey = SNAKE.BODY[SNAKE.BODY.size() - 1].Yb;
+    SNAKE.EATCHECK(prex, prey);
+    golden_eaten(SNAKE, SNAKE2, prex, prey);
+    green_eaten(SNAKE, SNAKE2);
+    int rotation = 0;
+    switch (SNAKE.direct) {
+    case snake::UP:
+        rotation = -90;
+        break;
+    case snake::DOWN:
+        rotation = 90;
+        break;
+    case snake::LEFT:
+        rotation = 180;
+        break;
+    case snake::RIGHT:
+        rotation = 0;
+        break;
+    }
+    // Render each body segment with its respective rotation
+    for (int i = 1; i < SNAKE.BODY.size(); i++)
+        SNAKE.BODY[i].draw_body(renderer, SNAKE.BODY[i - 1].Xb, SNAKE.BODY[i - 1].Yb, rotation, i == 0);
+    SNAKE.BODY[0].draw_body(renderer, 0, 0, rotation, true);
+}
+
+void process_snake_p2(snake2& SNAKE2, bool& quit, snake& SNAKE)//tham chieu den snake de dung cho ham EATCHECK
+{
+    SNAKE2.BORDERCHECK2(quit);
+    //border
+    SNAKE2.update();  //movement
+    //previous coordinate
+    int prex2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Xb;
+    int prey2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Yb;
+    SNAKE2.EATCHECK(prex2, prey2, SNAKE);
+    golden_eaten(SNAKE, SNAKE2, prex2, prey2);
+    green_eaten(SNAKE, SNAKE2);
+    int rotation2 = 0;
+    switch (SNAKE2.direct)
+    {
+    case snake2::UP:
+        rotation2 = -90;
+        break;
+    case snake2::DOWN:
+        rotation2 = 90;
+        break;
+    case snake2::LEFT:
+        rotation2 = 180;
+        break;
+    case snake2::RIGHT:
+        rotation2 = 0;
+        break;
+    }
+    // Render each body segment with its respective rotation
+    for (int i = 1; i < SNAKE2.BODY.size(); i++)
+        SNAKE2.BODY[i].draw_body(renderer, SNAKE2.BODY[i - 1].Xb, SNAKE2.BODY[i - 1].Yb, rotation2, i == 0);
+    SNAKE2.BODY[0].draw_body(renderer, 0, 0, rotation2, true);
 }
 
 
-void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold)
+void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold, SDL_Texture* green)
 {
-    if (SNAKE.BODY.size() % 5 != 0) {
+    if (SNAKE.BODY.size() % 5 != 0 && SNAKE.BODY.size() % 3 != 0) {
         SDL_Rect appleRect;
         appleRect.x = SNAKE.FOOD.fX;
         appleRect.y = SNAKE.FOOD.fY;
@@ -160,7 +171,8 @@ void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold
         if (appleTexture != NULL)
             SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
     }
-    else {
+    else if (SNAKE.BODY.size() % 5 == 0)
+    {
         SDL_Rect goldRect;
         goldRect.x = SNAKE.GOLD.fX;
         goldRect.y = SNAKE.GOLD.fY;
@@ -169,12 +181,22 @@ void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture, SDL_Texture* gold
         if (gold != NULL)
             SDL_RenderCopy(renderer, gold, NULL, &goldRect);
     }
+    else if (SNAKE.BODY.size() % 3 == 0)
+    {
+        SDL_Rect greenRect;
+        greenRect.x = SNAKE.GREEN.fX;
+        greenRect.y = SNAKE.GREEN.fY;
+        greenRect.w = 20;
+        greenRect.h = 20;
+        if (green != NULL)
+            SDL_RenderCopy(renderer, green, NULL, &greenRect);
+    }
 }
 
 
-void process_apple_p2(snake &SNAKE, snake2& SNAKE2, SDL_Texture* appleTexture, SDL_Texture* gold)
+void process_apple_p2(snake& SNAKE, snake2& SNAKE2, SDL_Texture* appleTexture, SDL_Texture* gold, SDL_Texture* green)
 {
-    if (SNAKE2.BODY.size() % 5 != 0) {
+    if (SNAKE2.BODY.size() % 5 != 0 && SNAKE2.BODY.size() % 3 != 0) {
         SDL_Rect appleRect;
         appleRect.x = SNAKE.FOOD2.fX;
         appleRect.y = SNAKE.FOOD2.fY;
@@ -183,7 +205,8 @@ void process_apple_p2(snake &SNAKE, snake2& SNAKE2, SDL_Texture* appleTexture, S
         if (appleTexture != NULL)
             SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
     }
-    else {
+    else if (SNAKE2.BODY.size() % 5 == 0)
+    {
         SDL_Rect goldRect;
         goldRect.x = SNAKE.GOLD.fX;
         goldRect.y = SNAKE.GOLD.fY;
@@ -191,5 +214,15 @@ void process_apple_p2(snake &SNAKE, snake2& SNAKE2, SDL_Texture* appleTexture, S
         goldRect.h = 20;
         if (gold != NULL)
             SDL_RenderCopy(renderer, gold, NULL, &goldRect);
+    }
+    else if (SNAKE2.BODY.size() % 3 == 0)
+    {
+        SDL_Rect greenRect;
+        greenRect.x = SNAKE.GREEN.fX;
+        greenRect.y = SNAKE.GREEN.fY;
+        greenRect.w = 20;
+        greenRect.h = 20;
+        if (green != NULL)
+            SDL_RenderCopy(renderer, green, NULL, &greenRect);
     }
 }
