@@ -12,6 +12,7 @@ using namespace std;
 
 bool win_audio = false;
 bool menu_audio = false;
+int volume = 64;
 
 int main(int argc, char* args[])
 {
@@ -39,6 +40,29 @@ int main(int argc, char* args[])
     SDL_Texture* space = loadTexture("space.png", renderer);
     Mix_Music* nhacnen = Mix_LoadMUS("nhacnen.mp3");
     Mix_Chunk* wingame = Mix_LoadWAV("nhaccachmang.wav");
+    SDL_Texture* volumeUpTexture = loadTexture("volume_up.png", renderer);
+    SDL_Texture* volumeDownTexture = loadTexture("volume_down.png", renderer);
+    SDL_Texture* muteTexture = loadTexture("mute.png", renderer);
+
+    SDL_Rect volumeUpRect, volumeDownRect, muteRect;
+    SDL_QueryTexture(volumeUpTexture, NULL, NULL, &volumeUpRect.w, &volumeUpRect.h);
+    volumeUpRect.x = 520;  // Adjust position as needed
+    volumeUpRect.y = 17;
+    volumeUpRect.w /= 9;
+    volumeUpRect.h /= 9;
+
+    SDL_QueryTexture(volumeDownTexture, NULL, NULL, &volumeDownRect.w, &volumeDownRect.h);
+    volumeDownRect.x = 590; // Adjust position as needed
+    volumeDownRect.y = 18;
+    volumeDownRect.w /= 9;
+    volumeDownRect.h /= 9;
+
+    SDL_QueryTexture(muteTexture, NULL, NULL, &muteRect.w, &muteRect.h);
+    muteRect.x = 550;  // Adjust position as needed
+    muteRect.y = 10;
+    muteRect.w /= 15;
+    muteRect.h /= 15;
+    
     SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
     SDL_Rect menukey1;
     SDL_QueryTexture(key1, NULL, NULL, &menukey1.w, &menukey1.h);
@@ -83,6 +107,11 @@ int main(int argc, char* args[])
     play.h /= 5;
     play.w /= 5;
     SDL_RenderCopy(renderer, playTexture, NULL, &play);
+    // Render volume controls
+    SDL_RenderCopy(renderer, volumeUpTexture, NULL, &volumeUpRect);
+    SDL_RenderCopy(renderer, volumeDownTexture, NULL, &volumeDownRect);
+    SDL_RenderCopy(renderer, muteTexture, NULL, &muteRect);
+
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
     SDL_Event e;
@@ -106,34 +135,51 @@ int main(int argc, char* args[])
                 if (e.button.button == SDL_BUTTON_LEFT)
                 {
                     SDL_GetMouseState(&x, &y);
+                    if (e.type == SDL_MOUSEBUTTONDOWN) {
+                        if (e.button.button == SDL_BUTTON_LEFT) {
+                            SDL_GetMouseState(&x, &y);
 
-                    if (inside(x, y, play))
-                    {
-                        Redering(menuTexture, head2menu, headm2, head1menu, headm1, key1, menukey1, key2, menukey2, loaTexture, loa, loa2Texture, loa3Texture);
-                        SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
-                        SDL_Texture* appleTexture = loadTexture("food.png", renderer);
-                        SDL_Texture* gold = loadTexture("goldApple.png", renderer);
-                        SDL_Texture* green = loadTexture("greenApple.png", renderer);
+                            if (inside(x, y, volumeUpRect)) {
+                                increaseVolume();
+                            }
+                            else if (inside(x, y, volumeDownRect)) {
+                                decreaseVolume();
+                            }
+                            else if (inside(x, y, muteRect)) {
+                                muteVolume();
+                            }
+                            else if (inside(x, y, play)) {
+                                Redering(menuTexture, head2menu, headm2, head1menu, headm1, key1, menukey1, key2, menukey2, loaTexture, loa, loa2Texture, loa3Texture);
+                                SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
+                                SDL_Texture* appleTexture = loadTexture("food.png", renderer);
+                                SDL_Texture* gold = loadTexture("goldApple.png", renderer);
+                                SDL_Texture* green = loadTexture("greenApple.png", renderer);
 
-                        //chen anh qua tao
+                                //chen anh qua tao
 
-                        snake SNAKE;
-                        snake2 SNAKE2;
-                        RunGame(quit, backgroundTexture, SNAKE, appleTexture, gold, green, e, SNAKE2, win);
-                        SDL_DestroyTexture(backgroundTexture);
-                        Mix_HaltMusic();
-                        Winner(result, e, win, p1winTexture, wingame, p2winTexture, space, sb);
-                        Mix_HaltMusic();
-                        SDL_RenderClear(renderer);
-                        quit = false;
-                        result = false;
-                        win_audio = false;
-                        menu_audio = false;
-                        SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
-                        SDL_RenderCopy(renderer, playTexture, NULL, &play);
-                        Mix_PlayMusic(nhacnen, -1);
-                        SDL_RenderPresent(renderer);
-                        //SDL_RenderClear(renderer);
+                                snake SNAKE;
+                                snake2 SNAKE2;
+                                RunGame(quit, backgroundTexture, SNAKE, appleTexture, gold, green, e, SNAKE2, win);
+                                SDL_DestroyTexture(backgroundTexture);
+                                Mix_HaltMusic();
+                                Winner(result, e, win, p1winTexture, wingame, p2winTexture, space, sb);
+                                Mix_HaltMusic();
+                                SDL_RenderClear(renderer);
+                                quit = false;
+                                result = false;
+                                win_audio = false;
+                                menu_audio = false;
+                                SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
+                                SDL_RenderCopy(renderer, playTexture, NULL, &play);
+                                SDL_RenderCopy(renderer, volumeUpTexture, NULL, &volumeUpRect);
+                                SDL_RenderCopy(renderer, volumeDownTexture, NULL, &volumeDownRect);
+                                SDL_RenderCopy(renderer, muteTexture, NULL, &muteRect);
+                                Mix_PlayMusic(nhacnen, -1);
+                                SDL_RenderPresent(renderer);
+                                //SDL_RenderClear(renderer);
+                                // Existing code for play button
+                            }
+                        }
                     }
                 }
             }
@@ -261,4 +307,25 @@ void Redering(SDL_Texture* menuTexture, SDL_Texture* head2menu, SDL_Rect& headm2
     SDL_RenderCopy(renderer, loa3Texture, NULL, &loa);
     SDL_RenderPresent(renderer);
     SDL_Delay(2000);
+}
+void increaseVolume() {
+    if (volume < 128) {
+        volume += 32;
+        Mix_VolumeMusic(volume);
+        Mix_Volume(-1, volume);
+    }
+}
+
+void decreaseVolume() {
+    if (volume > 0) {
+        volume -= 32;
+        Mix_VolumeMusic(volume);
+        Mix_Volume(-1, volume);
+    }
+}
+
+void muteVolume() {
+    volume = 0;
+    Mix_VolumeMusic(volume);
+    Mix_Volume(-1, volume);
 }
